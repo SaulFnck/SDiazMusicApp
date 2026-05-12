@@ -11,6 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.sdiazmusicapp.Screens.HomeScreen
 import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +23,48 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SDiazMusicAppTheme {
+
+
+                val navController = rememberNavController()
+                //Logica navegación
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home"
+                    ){
+                        //Home
+                        composable(route = "home"){
+                            HomeScreen(
+                                innerPadding = innerPadding,
+                                navController = navController
+                            )
+                        }
+
+                        //Detail
+                        /*
+                        composable(route = "detail"){
+                            AlbumDetailScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                navController = navController
+                            )
+                        }
+
+                         */
+                    }
+
                 }
+
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     SDiazMusicAppTheme {
-        Greeting("Android")
+
     }
 }
