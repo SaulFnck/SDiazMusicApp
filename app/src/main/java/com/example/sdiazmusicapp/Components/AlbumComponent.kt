@@ -51,7 +51,7 @@ fun AlbumComponent (
             contentDescription = "Album Image",
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray),
+                .background(MaterialTheme.colorScheme.surface),
             placeholder = null,
             contentScale = ContentScale.Crop
         )
