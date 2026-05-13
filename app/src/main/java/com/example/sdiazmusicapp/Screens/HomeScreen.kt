@@ -114,10 +114,9 @@ fun HomeScreen (
             modifier = Modifier
                 .fillMaxSize()
                 .background(backgroundGradient)
-                .padding(horizontal = 15.dp)
+                .padding(top = 60.dp, start = 15.dp, end = 15.dp)
         ) {
             item {
-                Box(modifier = Modifier.height(50.dp)) // Espaciador superior
                 Header()
             }
 
@@ -125,8 +124,8 @@ fun HomeScreen (
             item {
                 Row(
                     modifier = Modifier
+                        .padding(top = 20.dp)
                         .fillMaxWidth(),
-                        //.padding(top = 24.dp, bottom = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -135,12 +134,18 @@ fun HomeScreen (
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onBackground
                     )
+
+                    Text(
+                        text = "See more",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
 
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(175.dp)
                 ) {
                     items(albums) { album ->
                         AlbumComponent(album = album)
@@ -150,17 +155,32 @@ fun HomeScreen (
 
             // SECCIÓN RECIENTES (VERTICAL)
             item {
-                Text(
-                    text = "Recently Played",
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Recently Played",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Text(
+                        text = "See more",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp)
+                        .height(300.dp)
                 ) {
                     items(albums) { album ->
                         Recientes(album = album)

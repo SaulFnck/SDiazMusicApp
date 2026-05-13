@@ -39,9 +39,10 @@ fun AlbumComponent (
     Box(
         modifier = Modifier
             .padding(15.dp)
+            .padding(bottom = 5.dp)
             .clip(RoundedCornerShape(30.dp))
             .width(200.dp)
-            .height(150.dp),
+            .height(175.dp),
         contentAlignment = Alignment.BottomCenter,
     ) {
         AsyncImage(
