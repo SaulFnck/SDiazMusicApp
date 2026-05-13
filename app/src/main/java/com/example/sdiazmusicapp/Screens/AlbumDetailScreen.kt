@@ -11,9 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,10 +28,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.sdiazmusicapp.Components.HeaderDetail
+import com.example.sdiazmusicapp.Components.ReproductorComponent
+import com.example.sdiazmusicapp.Components.randomSongs
 import com.example.sdiazmusicapp.Models.Album
 import com.example.sdiazmusicapp.Services.albumService
 import kotlinx.coroutines.Dispatchers
@@ -97,65 +97,94 @@ fun AlbumDetailScreen(
             Text(text = "Error de conexión: $errorMessage", color = Color.Red)
         }
     } else{
-        //CONTENIDO
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFEDE7F6)) // Fondo lavanda claro
-                .verticalScroll(rememberScrollState())
-        ) {
-            album?.let {
+        album?.let { albumData ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                // Usamos LazyColumn como contenedor principal para mejor rendimiento
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFFEDE7F6)) // Fondo lavanda claro
+                ) {
+                    // Sección de Header
+                    item {
+                        HeaderDetail(album = albumData, navController = navController)
+                    }
 
-                //Header
-                HeaderDetail(album = it, navController = navController)
+                    // Sección de Información
+                    item {
+                        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(24.dp))
+                                    .background(Color.White)
+                                    .padding(20.dp)
+                            ) {
+                                Text(
+                                    text = "About this album",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF2D1E5F)
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = albumData.description,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.Gray
+                                )
+                            }
 
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    //about album
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(24.dp))
-                            .background(Color.White)
-                            .padding(20.dp)
-                    ) {
-                        Text(
-                            text = "About this album",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF2D1E5F)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = it.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Gray
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Row(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(25.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Artist: ",
+                                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                    color = Color(0xFF2D1E5F)
+                                )
+                                Text(
+                                    text = albumData.artist,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color(0xFF2D1E5F)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Text(
+                                text = "Tracks",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF2D1E5F)
+                            )
+                        }
+                    }
+
+                    // Lógica del ciclo para 10 canciones ficticias
+                    items(10) { index ->
+                        randomSongs(
+                            album = albumData,
+                            navController = navController,
+                            index = index // El index aumenta automáticamente (0, 1, 2...)
                         )
                     }
 
-                    //artist
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(25.dp))
-                            .background(Color.White)
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Artist: ",
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                            color = Color(0xFF2D1E5F)
-                        )
-                        Text(
-                            text = it.artist,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF2D1E5F)
-                        )
-                    }
+                    // Espacio final para que el reproductor no tape la última canción
+                    item { Spacer(modifier = Modifier.height(110.dp)) }
+                }
 
-                    Spacer(modifier = Modifier.height(24.dp))
-                    //random songs
+                // Componente Reproductor sobrepuesto
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 10.dp)
+                ) {
+                    ReproductorComponent(album = albumData)
                 }
             }
         }

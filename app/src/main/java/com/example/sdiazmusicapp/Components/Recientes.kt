@@ -33,7 +33,8 @@ import org.w3c.dom.Text
 fun Recientes (
     album: Album,
     onClick: () -> Unit = { }
-){
+)
+{
     Row(
         modifier = Modifier
             .padding(15.dp)

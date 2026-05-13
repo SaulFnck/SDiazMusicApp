@@ -35,6 +35,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -110,103 +111,108 @@ fun HomeScreen (
             Text(text = "Error de conexión: $errorMessage", color = Color.Red)
         }
     } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(backgroundGradient)
-                .padding(top = 60.dp, start = 15.dp, end = 15.dp)
-        ) {
-            item {
-                Header()
-            }
-
-            // SECCIÓN ALBUMS HORIZONTAL
-            item {
-                Row(
-                    modifier = Modifier
-                        .padding(top = 20.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Albums",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Text(
-                        text = "See more",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
+        Box(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundGradient)
+                    .padding(top = 60.dp, start = 15.dp, end = 15.dp)
+            ) {
+                item {
+                    Header()
                 }
 
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(175.dp)
-                ) {
-                    items(albums) { album ->
-                        AlbumComponent(
-                            album = album,
-                            onClick = {
-                                navController.navigate("detail/${album.id}")
-                            }
+                // SECCIÓN ALBUMS HORIZONTAL
+                item {
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Albums",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+
+                        Text(
+                            text = "See more",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
-                }
-            }
 
-            // SECCIÓN RECIENTES (VERTICAL)
-            item {
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Recently Played",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Text(
-                        text = "See more",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                ) {
-                    items(albums) { album ->
-                        Recientes(
-                            album = album,
-                            onClick = {
-                                navController.navigate("detail/${album.id}")
-                            }
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(175.dp)
+                    ) {
+                        items(albums) { album ->
+                            AlbumComponent(
+                                album = album,
+                                onClick = {
+                                    navController.navigate("detail/${album.id}")
+                                }
                             )
+                        }
+                    }
+                }
+
+                // SECCIÓN RECIENTES (VERTICAL)
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Recently Played",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+
+                        Text(
+                            text = "See more",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                    ) {
+                        items(albums) { album ->
+                            Recientes(
+                                album = album,
+                                onClick = {
+                                    navController.navigate("detail/${album.id}")
+                                }
+                            )
+                        }
                     }
                 }
             }
 
-            //Reproductor
-            item {
-                if (albums.isNotEmpty()) {
+            // Reproductor sobrepuesto
+            if (albums.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 10.dp)
+                ) {
                     val album = albums[0]
                     ReproductorComponent(
                         album = album,
                         onClick = {
                             navController.navigate("detail/${album.id}")
-                        })
+                        }
+                    )
                 }
             }
         }
