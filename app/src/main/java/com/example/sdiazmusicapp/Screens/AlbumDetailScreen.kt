@@ -1,11 +1,19 @@
 package com.example.sdiazmusicapp.Screens
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,9 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.sdiazmusicapp.Components.HeaderDetail
@@ -38,15 +48,6 @@ fun AlbumDetailScreen(
     navController: NavController = rememberNavController(),
     id: String
 ){
-
-    //Gradiente de fondo
-    val backgroundGradient = Brush.verticalGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.background,
-            Color.White
-        )
-    )
-
     val BASE_URL = "https://musicapi.pjasoft.com/"
     var album by remember { mutableStateOf<Album?>(null) }
     var isLoading by remember { mutableStateOf(true) }
@@ -96,21 +97,66 @@ fun AlbumDetailScreen(
             Text(text = "Error de conexión: $errorMessage", color = Color.Red)
         }
     } else{
+        //CONTENIDO
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFEDE7F6)) // Fondo lavanda claro
+                .verticalScroll(rememberScrollState())
         ) {
             album?.let {
+
                 //Header
                 HeaderDetail(album = it, navController = navController)
 
-                //About album
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    //about album
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(24.dp))
+                            .background(Color.White)
+                            .padding(20.dp)
+                    ) {
+                        Text(
+                            text = "About this album",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF2D1E5F)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = it.description,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+                    }
 
-                //artist
+                    //artist
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(25.dp))
+                            .background(Color.White)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Artist: ",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFF2D1E5F)
+                        )
+                        Text(
+                            text = it.artist,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF2D1E5F)
+                        )
+                    }
 
-                //Row randoms songs
-
-
-
+                    Spacer(modifier = Modifier.height(24.dp))
+                    //random songs
+                }
             }
         }
     }
