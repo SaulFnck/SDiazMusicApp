@@ -1,6 +1,7 @@
 package com.example.sdiazmusicapp.Components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,16 +34,16 @@ import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 @Composable
 fun AlbumComponent (
     album: Album,
-    //onClick: () -> Unit = { }
+    onClick: () -> Unit = { }
 )
 {
     Box(
         modifier = Modifier
             .padding(15.dp)
-            .padding(bottom = 5.dp)
             .clip(RoundedCornerShape(30.dp))
             .width(200.dp)
-            .height(175.dp),
+            .height(150.dp)
+            .clickable { onClick() },
         contentAlignment = Alignment.BottomCenter,
     ) {
         AsyncImage(

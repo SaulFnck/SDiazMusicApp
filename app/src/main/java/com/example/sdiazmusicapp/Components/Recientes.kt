@@ -1,6 +1,7 @@
 package com.example.sdiazmusicapp.Components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,7 @@ import org.w3c.dom.Text
 @Composable
 fun Recientes (
     album: Album,
-    //onClick: () -> Unit = { }
+    onClick: () -> Unit = { }
 ){
     Row(
         modifier = Modifier
@@ -39,7 +40,8 @@ fun Recientes (
             .fillMaxWidth()
             .height(75.dp)
             .clip(RoundedCornerShape(15.dp))
-            .background(MaterialTheme.colorScheme.surface),
+            .background(MaterialTheme.colorScheme.surface)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.SpaceAround
     ) {

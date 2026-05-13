@@ -148,7 +148,12 @@ fun HomeScreen (
                         .height(175.dp)
                 ) {
                     items(albums) { album ->
-                        AlbumComponent(album = album)
+                        AlbumComponent(
+                            album = album,
+                            onClick = {
+                                navController.navigate("detail/${album.id}")
+                            }
+                        )
                     }
                 }
             }
@@ -183,15 +188,26 @@ fun HomeScreen (
                         .height(300.dp)
                 ) {
                     items(albums) { album ->
-                        Recientes(album = album)
+                        Recientes(
+                            album = album,
+                            onClick = {
+                                navController.navigate("detail/${album.id}")
+                            }
+                            )
                     }
                 }
             }
 
             //Reproductor
             item {
-                var album = albums[0]
-                ReproductorComponent(album)
+                if (albums.isNotEmpty()) {
+                    val album = albums[0]
+                    ReproductorComponent(
+                        album = album,
+                        onClick = {
+                            navController.navigate("detail/${album.id}")
+                        })
+                }
             }
         }
     }

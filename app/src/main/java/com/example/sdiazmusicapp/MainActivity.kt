@@ -1,19 +1,18 @@
 package com.example.sdiazmusicapp
 
-import android.os.Bundle
+import  android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.sdiazmusicapp.Screens.AlbumDetailScreen
 import com.example.sdiazmusicapp.Screens.HomeScreen
 import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = "home"
                     ){
-                        //Home
+                        // Home
                         composable(route = "home"){
                             HomeScreen(
                                 innerPadding = innerPadding,
@@ -38,8 +37,23 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        //Detail
-
+                        // Detail
+                        composable(
+                            route = "detail/{id}",
+                            arguments = listOf(
+                                navArgument("id"){
+                                    type = NavType.StringType
+                                    nullable = false
+                                }
+                            )
+                        ){ backStack ->
+                            val id = backStack.arguments?.getString("id") ?: ""
+                            AlbumDetailScreen(
+                                innerPadding = innerPadding,
+                                navController = navController,
+                                id = id
+                            )
+                        }
                     }
                 }
             }

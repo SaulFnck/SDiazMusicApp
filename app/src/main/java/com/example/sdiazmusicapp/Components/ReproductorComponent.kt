@@ -1,6 +1,7 @@
 package com.example.sdiazmusicapp.Components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,6 +35,7 @@ import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 @Composable
 fun ReproductorComponent(
     album: Album,
+    onClick: () -> Unit = { }
 ){
     Row(
         modifier = Modifier
@@ -41,7 +43,8 @@ fun ReproductorComponent(
             .fillMaxWidth()
             .height(90.dp)
             .clip(RoundedCornerShape(25.dp))
-            .background(DarkPurple),
+            .background(DarkPurple)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(
