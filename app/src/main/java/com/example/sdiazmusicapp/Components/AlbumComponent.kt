@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,7 @@ import com.example.sdiazmusicapp.ui.theme.DarkPurple
 import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 
 @Composable
-fun Albums (
+fun AlbumComponent (
     album: Album,
     //onClick: () -> Unit = { }
 )
@@ -41,7 +42,7 @@ fun Albums (
             .clip(RoundedCornerShape(30.dp))
             .width(200.dp)
             .height(150.dp),
-        contentAlignment = Alignment.BottomCenter
+        contentAlignment = Alignment.BottomCenter,
     ) {
         AsyncImage(
             model = album.image,
@@ -49,7 +50,8 @@ fun Albums (
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray),
-            placeholder = null
+            placeholder = null,
+            contentScale = ContentScale.Crop
         )
 
         Row(
@@ -101,7 +103,7 @@ fun Albums (
 @Composable
 fun AlbumsPreview(){
     SDiazMusicAppTheme{
-        Albums(
+        AlbumComponent(
             album = albumsList[0]
         )
     }
