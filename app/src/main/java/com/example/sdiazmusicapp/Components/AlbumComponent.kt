@@ -1,7 +1,6 @@
 package com.example.sdiazmusicapp.Components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,8 +32,9 @@ import com.example.sdiazmusicapp.ui.theme.SDiazMusicAppTheme
 @Composable
 fun Albums (
     album: Album,
-    onClick: () -> Unit = { }
-) {
+    //onClick: () -> Unit = { }
+)
+{
     Box(
         modifier = Modifier
             .padding(15.dp)
@@ -50,7 +48,8 @@ fun Albums (
             contentDescription = "Album Image",
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray)
+                .background(Color.LightGray),
+            placeholder = null
         )
 
         Row(
@@ -101,7 +100,7 @@ fun Albums (
 @Preview
 @Composable
 fun AlbumsPreview(){
-    SDiazMusicAppTheme() {
+    SDiazMusicAppTheme{
         Albums(
             album = albumsList[0]
         )
