@@ -125,8 +125,8 @@ fun HomeScreen (
             item {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp, bottom = 12.dp),
+                        .fillMaxWidth(),
+                        //.padding(top = 24.dp, bottom = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -156,10 +156,18 @@ fun HomeScreen (
                     modifier = Modifier.padding(top = 24.dp, bottom = 12.dp),
                     color = MaterialTheme.colorScheme.onBackground
                 )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                ) {
+                    items(albums) { album ->
+                        Recientes(album = album)
+                    }
+                }
             }
-            items(albums) { album ->
-                Recientes(album = album)
-            }
+
             //Reproductor
             item {
                 var album = albums[0]

@@ -40,7 +40,7 @@ fun ReproductorComponent(
             .padding(15.dp)
             .fillMaxWidth()
             .height(90.dp)
-            .clip(RoundedCornerShape(50.dp))
+            .clip(RoundedCornerShape(25.dp))
             .background(DarkPurple),
         verticalAlignment = Alignment.CenterVertically,
     ) {
